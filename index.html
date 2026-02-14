@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Valentine's Day Eibran</title>
+
+<style>
+body{
+    margin:0;
+    font-family: 'Arial', sans-serif;
+    overflow:hidden;
+    background:Mediumpurple;
+}
+
+/* FONDO DE CORAZONES */
+.heart{
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:red;
+    transform: rotate(45deg);
+    animation: float 9s linear infinite;
+}
+.heart::before,
+.heart::after{
+    content:"";
+    position:absolute;
+    width:20px;
+    height:20px;
+    background:darkred;
+    border-radius:50%;
+}
+.heart::before{ top:-10px; left:0; }
+.heart::after{ left:-10px; top:0; }
+
+@keyframes float{
+    0%{ transform: translateY(100vh) rotate(45deg); opacity:1;}
+    100%{ transform: translateY(-10vh) rotate(45deg); opacity:0;}
+}
+
+/* PANTALLAS */
+.screen{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+}
+
+h1{
+    font-size:3rem;
+    text-shadow:2px 2px 5px black;
+}
+
+button{
+    padding:15px 30px;
+    font-size:1.2rem;
+    border:none;
+    border-radius:30px;
+    background:white;
+    color:slateblue;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover{
+    background:#ffe6eb;
+}
+
+/* CASET */
+.cassette{
+    width:420px;
+    height:250px;
+    background:dimgray;
+    border-radius:12px;
+    position:relative;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* Tornillos */
+.screw{
+    width:12px;
+    height:12px;
+    background:#444;
+    border-radius:50%;
+    position:absolute;
+}
+.top-left{ top:10px; left:10px;}
+.top-right{ top:10px; right:10px;}
+.bottom-left{ bottom:10px; left:10px;}
+.bottom-right{ bottom:10px; right:10px;}
+
+/* Etiqueta roja */
+.label{
+    position:absolute;
+    top:30px;
+    left:50%;
+    transform:translateX(-50%);
+    width:85%;
+    height:90px;
+    background:Mediumpurple;
+    border-radius:8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    box-sizing:border-box;
+    color:white;
+    font-weight:bold;
+}
+
+.label-name{
+    font-size:1.8rem;
+    letter-spacing:3px;
+}
+
+.label-time{
+    text-align:right;
+    font-size:1rem;
+}
+
+/* Ventana central */
+.window{
+    position:absolute;
+    bottom:40px;
+    left:50%;
+    transform:translateX(-50%);
+    width:70%;
+    height:80px;
+    background:#222;
+    border-radius:8px;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+}
+
+/* Carretes */
+.reel{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    overflow:hidden;
+    position:relative;
+    background:#ddd;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.reel img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+}
+.reel::after{
+    content:"";
+    position:absolute;
+    width:15px;
+    height:15px;
+    background:#999;
+    border-radius:50%;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
+
+.spin{
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin{
+    from{ transform:rotate(0deg);}
+    to{ transform:rotate(360deg);}
+}
+</style>
+</head>
+
+<body>
+
+<!-- CORAZONES -->
+<script>
+for(let i=0;i<30;i++){
+    let heart=document.createElement("div");
+    heart.className="heart";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=(3+Math.random()*5)+"s";
+    heart.style.opacity=Math.random();
+    document.body.appendChild(heart);
+}
+</script>
+
+<!-- PANTALLA INICIO -->
+<div class="screen" id="home">
+    <h1>💖 Happy Valentine's Day 💖</h1>
+    <button onclick="goToCassette()">Abrir Caset</button>
+</div>
+
+<!-- PANTALLA CASET -->
+<div class="screen" id="cassetteScreen" style="display:none;">
+ <div class="cassette">
+    <div class="screw top-left"></div>
+    <div class="screw top-right"></div>
+    <div class="screw bottom-left"></div>
+    <div class="screw bottom-right"></div>
+
+    <div class="label">
+        <div class="label-name">Kael</div>
+        <div class="label-time">Para<br>Mi Eibran</div>
+    </div>
+
+    <div class="window">
+        <div class="reel left" id="reelLeft">
+    <img src="eibra.jpg" alt="Imagen izquierda">
+</div>
+
+<div class="reel right" id="reelRight">
+    <img src="eibra.jpg" alt="Imagen derecha">
+</div>
+    </div>
+</div>
+    <br>
+    <button onclick="toggleAudio()">▶ Play / ⏸ Pause</button>
+</div>
+
+<audio id="audio" src="duela.mp3"></audio>
+
+<script>
+function goToCassette(){
+    document.getElementById("home").style.display="none";
+    document.getElementById("cassetteScreen").style.display="flex";
+}
+
+let audio=document.getElementById("audio");
+let reelLeft=document.getElementById("reelLeft");
+let reelRight=document.getElementById("reelRight");
+
+function toggleAudio(){
+    if(audio.paused){
+        audio.play();
+        reelLeft.classList.add("spin");
+        reelRight.classList.add("spin");
+    }else{
+        audio.pause();
+        reelLeft.classList.remove("spin");
+        reelRight.classList.remove("spin");
+    }
+}
+</script>
+
+</body>
+</html>
